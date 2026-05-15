@@ -102,7 +102,10 @@ let IGOT_PUSH_KEY = '';
 //PUSH_PLUS_USER： 一对多推送的“群组编码”（一对多推送下面->您的群组(如无则新建)->群组编码，如果您是创建群组人。也需点击“查看二维码”扫描绑定，否则不能接受群组消息推送）
 let PUSH_PLUS_TOKEN = '';
 let PUSH_PLUS_USER = '';
-
+let PUSH_PLUS_TEMPLATE = '';
+let PUSH_PLUS_CHANNEL = '';
+let PUSH_PLUS_WEBHOOK = '';
+let PUSH_PLUS_TO = '';
 // =======================================smtp 通知设置=======================================
 // 变量SMTP_SERVICE SMTP_EMAI SMTP_TO SMTP_PASSWORD SMTP_NAME
 let SMTP_SERVICE = ''; // 邮箱服务名称，比如 126、163、Gmail、QQ 等，支持列表 https://github.com/nodemailer/nodemailer/blob/master/lib/well-known/services.json
@@ -255,6 +258,10 @@ async function sendNotify(text, desp, params = {}, author = "",strsummary="") {
         IGOT_PUSH_KEY = '';
         PUSH_PLUS_TOKEN = '';
         PUSH_PLUS_USER = '';
+        PUSH_PLUS_TEMPLATE = '';
+        PUSH_PLUS_CHANNEL = '';
+        PUSH_PLUS_WEBHOOK = '';
+        PUSH_PLUS_TO = '';
         Notify_CKTask = "";
         Notify_SkipText = [];
 
@@ -728,6 +735,19 @@ async function sendNotify(text, desp, params = {}, author = "",strsummary="") {
         if (process.env["PUSH_PLUS_USER" + UseGroupNotify] && Use_pushPlusNotify) {
             PUSH_PLUS_USER = process.env["PUSH_PLUS_USER" + UseGroupNotify];
         }
+        if (process.env["PUSH_PLUS_TEMPLATE" + UseGroupNotify] && Use_pushPlusNotify) {
+            PUSH_PLUS_TEMPLATE = process.env["PUSH_PLUS_TEMPLATE" + UseGroupNotify];
+        }
+        if (process.env["PUSH_PLUS_CHANNEL" + UseGroupNotify] && Use_pushPlusNotify) {
+            PUSH_PLUS_CHANNEL = process.env["PUSH_PLUS_CHANNEL" + UseGroupNotify];
+        }
+        if (process.env["PUSH_PLUS_WEBHOOK" + UseGroupNotify] && Use_pushPlusNotify) {
+            PUSH_PLUS_WEBHOOK = process.env["PUSH_PLUS_WEBHOOK" + UseGroupNotify];
+        }
+        if (process.env["PUSH_PLUS_TO" + UseGroupNotify] && Use_pushPlusNotify) {
+            PUSH_PLUS_TO = process.env["PUSH_PLUS_TO" + UseGroupNotify];
+        }
+
         if (process.env["GOTIFY_URL" + UseGroupNotify]) {
             GOTIFY_URL = process.env["GOTIFY_URL" + UseGroupNotify];
         }
@@ -904,6 +924,18 @@ async function sendNotify(text, desp, params = {}, author = "",strsummary="") {
     }
     if (PUSH_PLUS_USER) {
         console.log("PUSH_PLUS USER :" + PUSH_PLUS_USER);
+    }
+    if (PUSH_PLUS_TEMPLATE) {
+        console.log("PUSH_PLUS_TEMPLATE :" + PUSH_PLUS_TEMPLATE);
+    }
+    if (PUSH_PLUS_CHANNEL) {
+        console.log("PUSH_PLUS_CHANNEL :" + PUSH_PLUS_CHANNEL);
+    }
+    if (PUSH_PLUS_WEBHOOK) {
+        console.log("PUSH_PLUS_WEBHOOK :" + PUSH_PLUS_WEBHOOK);
+    }
+    if (PUSH_PLUS_TO) {
+        console.log("PUSH_PLUS_TO :" + PUSH_PLUS_TO);
     }
     PushErrorTime = 0;
     await pushPlusNotify(text, desp); //pushplus(推送加)
@@ -1900,6 +1932,10 @@ function pushPlusNotify(text, desp) {
                 title: `${text}`,
                 content: `${desp}`,
                 topic: `${PUSH_PLUS_USER}`,
+                template: `${PUSH_PLUS_TEMPLATE}`,
+                channel: `${PUSH_PLUS_CHANNEL}`,
+                option: `${PUSH_PLUS_WEBHOOK}`,
+                to: `${PUSH_PLUS_TO}`,
             };
             const options = {
                 url: `https://www.pushplus.plus/send`,
