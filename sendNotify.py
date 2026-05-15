@@ -36,6 +36,11 @@ QQ_MODE = ''                # qq机器人的QQ_MODE; secrets可填
 QYWX_AM = ''                # 企业微信
 QYWX_KEY = ''                # 企业微信BOT
 PUSH_PLUS_TOKEN = ''        # 微信推送Plus+
+PUSH_PLUS_USER = ''
+PUSH_PLUS_TEMPLATE = ''
+PUSH_PLUS_CHANNEL = ''
+PUSH_PLUS_WEBHOOK = ''
+PUSH_PLUS_TO = '';
 FS_KEY = ''                 #飞书群BOT
 
 notify_mode = []
@@ -245,7 +250,12 @@ def pushplus_bot(title, content):
         data = {
             "token": PUSH_PLUS_TOKEN,
             "title": title,
-            "content": content
+            "content": content,
+            "topic": PUSH_PLUS_USER,
+            "template": PUSH_PLUS_TEMPLATE,
+            "channel": PUSH_PLUS_CHANNEL,
+            "option": PUSH_PLUS_WEBHOOK,
+            "to": PUSH_PLUS_TO
         }
         body = json.dumps(data).encode(encoding='utf-8')
         headers = {'Content-Type': 'application/json'}
